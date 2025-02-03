@@ -29,8 +29,8 @@ AGD_2D_prj1Character::AGD_2D_prj1Character()
 	// Create a camera boom attached to the root (capsule)
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 500.0f;
-	CameraBoom->SocketOffset = FVector(0.0f, 0.0f, 75.0f);
+	CameraBoom->TargetArmLength = 900.0f;
+	CameraBoom->SocketOffset = FVector(0.0f, 0.0f, 65.0f);
 	CameraBoom->SetUsingAbsoluteRotation(true);
 	CameraBoom->bDoCollisionTest = false;
 	CameraBoom->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
@@ -49,10 +49,10 @@ AGD_2D_prj1Character::AGD_2D_prj1Character()
 	GetCharacterMovement()->bOrientRotationToMovement = false;
 
 	// Configure character movement
-	GetCharacterMovement()->GravityScale = 2.0f;
+	GetCharacterMovement()->GravityScale = 0.5f;
 	GetCharacterMovement()->AirControl = 0.80f;
 	GetCharacterMovement()->JumpZVelocity = 1000.f;
-	GetCharacterMovement()->GroundFriction = 3.0f;
+	GetCharacterMovement()->GroundFriction = 0.5f;
 	GetCharacterMovement()->MaxWalkSpeed = 600.0f;
 	GetCharacterMovement()->MaxFlySpeed = 600.0f;
 
