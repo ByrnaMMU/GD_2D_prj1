@@ -23,7 +23,7 @@ void ABreakableScenery::BeginPlay()
 	
 }
 
-// Called every frame
+ Called every frame
 void ABreakableScenery::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);

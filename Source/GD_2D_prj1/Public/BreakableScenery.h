@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "PaperSpriteComponent.h"
+
 #include "BreakableScenery.generated.h"
 
 UCLASS()
@@ -18,6 +20,10 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	// the objects sprite 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
+	UPaperSpriteComponent* Sprite;
 
 public:	
 	// Called every frame
