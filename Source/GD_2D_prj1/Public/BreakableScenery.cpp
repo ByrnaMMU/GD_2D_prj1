@@ -2,7 +2,7 @@
 
 
 #include "BreakableScenery.h"
-
+#include "PaperSpriteComponent.h"
 // Sets default values
 ABreakableScenery::ABreakableScenery()
 {
@@ -23,7 +23,7 @@ void ABreakableScenery::BeginPlay()
 	
 }
 
- Called every frame
+// Called every frame
 void ABreakableScenery::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);

@@ -23,7 +23,7 @@ protected:
 
 	// the objects sprite 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
-	UPaperSpriteComponent* Sprite;
+	UPaperSpriteComponent* SpriteComponent;
 
 public:	
 	// Called every frame
