@@ -13,6 +13,19 @@
 class UTextRenderComponent;
 class UInputMappingContext;
 class UInputAction;
+class IdleState;
+
+
+//enums for character
+UENUM(BlueprintType)
+enum class ECharacterState : uint8
+{
+	Idle		UMETA(DisplayName = "Idle"),
+	Running		UMETA(DisplayName = "Running"),
+	Jumping		UMETA(DisplayName = "Jumping"),
+	Falling		UMETA(DisplayName = "Falling"),
+	Dead		UMETA(DisplayName = "Dead")
+};
 
 /**
  * This class is the default character for GD_2D_prj1, and it is responsible for all
@@ -27,6 +40,7 @@ class AGD_2D_prj1Character : public APaperCharacter
 {
 	GENERATED_BODY()
 
+
 	/** Side view camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera, meta=(AllowPrivateAccess="true"))
 	class UCameraComponent* SideViewCameraComponent;
@@ -38,16 +52,8 @@ class AGD_2D_prj1Character : public APaperCharacter
 	UTextRenderComponent* TextComponent;
 	virtual void Tick(float DeltaSeconds) override;
 protected:
-	// The animation to play while running around
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Animations)
-	class UPaperFlipbook* RunningAnimation;
+	
 
-	// The animation to play while idle (standing still)
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
-	class UPaperFlipbook* IdleAnimation;
-
-	/** Called to choose the correct animation to play based on the character's movement state */
-	void UpdateAnimation();
 
 	/** Called for side to side input */
 	void MoveRight(const FInputActionValue& Value);
@@ -60,12 +66,43 @@ protected:
 	/** Handle touch stop event. */
 	void TouchStopped(const ETouchIndex::Type FingerIndex, const FVector Location);
 
+	//State machine methods
+	void UpdateState();
+	void HandleState();
+
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 	// End of APawn interface
 
+
+
 public:
 	AGD_2D_prj1Character();
+
+
+	/** Called to choose the correct animation to play based on the character's movement state */
+	void UpdateAnimation(UPaperFlipbook* animation);
+
+	// The animation to play while running around
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+	class UPaperFlipbook* RunningAnimation;
+
+	// The animation to play while idle (standing still)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+	class UPaperFlipbook* IdleAnimation;
+
+	// The animation to play while jumping
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+	class UPaperFlipbook* JumpingAnimation;
+
+	// The animation to play while falling
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
+	class UPaperFlipbook* FallingAnimation;
+
+	//character states
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
+	ECharacterState CharacterState;
+
 	UPROPERTY(VisibleAnywhere)
 	// code for controlling the stamina of the player
 	int Stamina;
