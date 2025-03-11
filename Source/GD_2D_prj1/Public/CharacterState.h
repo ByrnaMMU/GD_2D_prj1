@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "IdleState.h" 
+#include "PaperFlipbook.h" 
 #include "UObject/NoExportTypes.h"
 #include "CharacterState.generated.h"
 
@@ -20,6 +22,13 @@ protected:
     UPROPERTY()
     AGD_2D_prj1Character* Character;
 public:
+    // the idle state of the player 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = States)
+    class UCharacterState* IdleState;
+
+    // State management 
+    void SetState(UCharacterState* NewState);
+    UCharacterState* GetCurrentState() const;
 
     // getter for the character
     void SetCharacter(AGD_2D_prj1Character* CharacterOwner);
