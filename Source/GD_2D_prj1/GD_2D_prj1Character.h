@@ -6,6 +6,8 @@
 #include "PaperCharacter.h"
 #include "EnhancedInputComponent.h"
 #include "InputActionValue.h"
+#include "IdleState.h"
+#include "PaperFlipbook.h"
 #include "GD_2D_prj1Character.generated.h"
 
 
@@ -57,6 +59,8 @@ protected:
 
 	/** Called for side to side input */
 	void MoveRight(const FInputActionValue& Value);
+	void StartJump(const FInputActionValue& Value);
+	void StopJump(const FInputActionValue& Value);
 
 	void UpdateCharacter();
 
@@ -73,7 +77,9 @@ protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 	// End of APawn interface
-
+	// the idle state of the player
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = States)
+	class UCharacterState* CurrentState;
 
 
 public:
@@ -120,4 +126,12 @@ public:
 	UInputAction* IA_Move;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "EnhancedInput")
 	UInputAction* IA_Jump;
+
+	// the idle state of the player
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = States)
+	class UCharacterState* IdleState;
+
+	// State management
+	void SetState(UCharacterState* NewState);
+	UCharacterState* GetCurrentState() const;
 };

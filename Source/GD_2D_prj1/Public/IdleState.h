@@ -16,6 +16,7 @@ class GD_2D_PRJ1_API UIdleState : public UCharacterState
 {
 	GENERATED_BODY()
 public:
+    virtual void EnterState() override;
     virtual void MoveRight(float Value) override;
     virtual void StartJump() override;
     virtual void HandleState() override;

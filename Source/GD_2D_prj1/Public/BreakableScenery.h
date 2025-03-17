@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "PaperSpriteComponent.h"
-
+#include "Components/BoxComponent.h"
 #include "BreakableScenery.generated.h"
 
 UCLASS()
@@ -24,6 +24,8 @@ protected:
 	// the objects sprite 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
 	UPaperSpriteComponent* SpriteComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
+	UBoxComponent* Collider;
 
 public:	
 	// Called every frame

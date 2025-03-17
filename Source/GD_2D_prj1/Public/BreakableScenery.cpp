@@ -3,6 +3,7 @@
 
 #include "BreakableScenery.h"
 #include "PaperSpriteComponent.h"
+#include "Components/BoxComponent.h"
 // Sets default values
 ABreakableScenery::ABreakableScenery()
 {
@@ -12,7 +13,8 @@ ABreakableScenery::ABreakableScenery()
 	// Create the sprite component
 	SpriteComponent = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("SpriteComponent"));
 	RootComponent = SpriteComponent; 
-
+	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("Collider"));
+	Collider->SetupAttachment(RootComponent);
 
 }
 

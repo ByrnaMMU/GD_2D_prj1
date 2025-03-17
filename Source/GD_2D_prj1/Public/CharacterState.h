@@ -3,8 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "IdleState.h" 
-#include "PaperFlipbook.h" 
 #include "UObject/NoExportTypes.h"
 #include "CharacterState.generated.h"
 

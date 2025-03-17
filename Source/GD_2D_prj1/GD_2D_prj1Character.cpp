@@ -10,6 +10,8 @@
 #include "GameFramework/Controller.h"
 #include "Camera/CameraComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "IdleState.h"
+#include "PaperFlipbook.h"
 
 DEFINE_LOG_CATEGORY_STATIC(SideScrollerCharacter, Log, All);
 
@@ -75,6 +77,9 @@ AGD_2D_prj1Character::AGD_2D_prj1Character()
 	// Enable replication on the Sprite component so animations show up when networked
 	GetSprite()->SetIsReplicated(true);
 	bReplicates = true;
+
+	// create and attach the Idle state
+	IdleState = CreateDefaultSubobject<UIdleState>(TEXT("IdleState"));
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -92,14 +97,11 @@ void AGD_2D_prj1Character::UpdateAnimation(UPaperFlipbook*animation)
 void AGD_2D_prj1Character::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	
-	//update state of the player
-	UpdateState();
-
-	//update state functionality
-	HandleState();
-
-	//UpdateCharacter();	
+	// update the players state
+	CurrentState->UpdateState(DeltaSeconds);
+	// update the state functionality
+	CurrentState->HandleState();
+	//UpdateCharacter();
 }
 
 
@@ -128,16 +130,37 @@ void AGD_2D_prj1Character::SetupPlayerInputComponent(class UInputComponent* Play
 	Input->BindAction(IA_Move, ETriggerEvent::Triggered, this, &AGD_2D_prj1Character::MoveRight);
 	Input->BindAction(IA_Jump, ETriggerEvent::Triggered, this, &ACharacter::Jump);
 
+	// give the state a reference to the character
+	IdleState->SetCharacter(this);
+
+	// set the inital state to idle
+	SetState(IdleState);
 }
 
 void AGD_2D_prj1Character::MoveRight(const FInputActionValue& Value)
 {
-	
+	if (CurrentState)
+	{
+		CurrentState->MoveRight(Value.Get<float>());
+	}
+}
 
-	/*UpdateChar();*/
+void AGD_2D_prj1Character::StartJump(const FInputActionValue& Value)
+{
+	if (CurrentState)
+	{
+		// jump the Player
+		CurrentState->StartJump();
+	}
+}
 
-	// Apply the input to the character motion
-	AddMovementInput(FVector(1.0f, 0.0f, 0.0f), Value.Get<float>());
+void AGD_2D_prj1Character::StopJump(const FInputActionValue& Value)
+{
+	if (CurrentState)
+	{
+		// jump the Player
+		StopJumping();
+	}
 }
 
 void AGD_2D_prj1Character::TouchStarted(const ETouchIndex::Type FingerIndex, const FVector Location)
@@ -257,4 +280,18 @@ void AGD_2D_prj1Character::HandleState()
 		// Play dead animation
 		break;
 	}
+}
+
+void AGD_2D_prj1Character::SetState(UCharacterState* NewState)
+{
+	// in reality you should implement the logic for enter state here
+	// adjust the state
+	CurrentState = NewState;
+	CurrentState->EnterState();
+	// in reality you should implement the logic for exit state here
+}
+
+UCharacterState* AGD_2D_prj1Character::GetCurrentState() const
+{
+	return CurrentState;
 }
