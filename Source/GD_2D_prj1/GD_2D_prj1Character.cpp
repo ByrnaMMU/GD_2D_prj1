@@ -11,6 +11,7 @@
 #include "Camera/CameraComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "IdleState.h"
+#include "WalkState.h"
 #include "PaperFlipbook.h"
 
 DEFINE_LOG_CATEGORY_STATIC(SideScrollerCharacter, Log, All);
@@ -80,6 +81,8 @@ AGD_2D_prj1Character::AGD_2D_prj1Character()
 
 	// create and attach the Idle state
 	IdleState = CreateDefaultSubobject<UIdleState>(TEXT("IdleState"));
+	// create and attach the Walk state
+	WalkState = CreateDefaultSubobject<UIdleState>(TEXT("WalkState"));
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -132,7 +135,6 @@ void AGD_2D_prj1Character::SetupPlayerInputComponent(class UInputComponent* Play
 
 	// give the state a reference to the character
 	IdleState->SetCharacter(this);
-
 	// set the inital state to idle
 	SetState(IdleState);
 }
@@ -197,90 +199,90 @@ void AGD_2D_prj1Character::UpdateCharacter()
 	}
 }
 
-void AGD_2D_prj1Character::UpdateState()
-{
-	const FVector PlayerVelocity = GetVelocity();
-	switch (CharacterState)
-	{
-	case ECharacterState::Idle:
-		// from Idle we can run, jump or die horribly (if you added the health script), no dissapearing platforms so can't fall
-		// jump has proity over run
-		if (PlayerVelocity.Z > 0.1) // must be jumping
-		{
-			CharacterState = ECharacterState::Jumping;
-		}
-		else if (FMath::Abs(PlayerVelocity.X) > 0.1) // must be running
-		{
-			CharacterState = ECharacterState::Running;
-		}
-		break;
-	case ECharacterState::Running:
-		// From running we can idle, jump, fall or die
-		// jump has proity over run
-		if (PlayerVelocity.Z > 0.1) // must be jumping
-		{
-			CharacterState = ECharacterState::Jumping;
-		}
-		else if (PlayerVelocity.Z < -0.1) // must be falling
-		{
-			CharacterState = ECharacterState::Falling;
-		}
-		else if (FMath::Abs(PlayerVelocity.X) < 0.1) // must be idle
-		{
-			CharacterState = ECharacterState::Idle;
-		}
-		break;
-	case ECharacterState::Jumping:
-		// ether from jump to idle or fall
-		if (PlayerVelocity.Z < -0.1) // must be falling
-		{
-			CharacterState = ECharacterState::Falling;
-		}
-		else if (PlayerVelocity.Z < 0.1) // must be idle
-		{
-			CharacterState = ECharacterState::Idle;
-		}
-		break;
-	case ECharacterState::Falling:
-		if (PlayerVelocity.Z > -0.1 && PlayerVelocity.Z < 0.1) // must have landed
-		{
-			CharacterState = ECharacterState::Idle;
-		}
-		break;
-	case ECharacterState::Dead:
-		// RIP
-		break;
-	}
-}
+//void AGD_2D_prj1Character::UpdateState()
+//{
+//	const FVector PlayerVelocity = GetVelocity();
+//	switch (CharacterState)
+//	{
+//	case ECharacterState::Idle:
+//		// from Idle we can run, jump or die horribly (if you added the health script), no dissapearing platforms so can't fall
+//		// jump has proity over run
+//		if (PlayerVelocity.Z > 0.1) // must be jumping
+//		{
+//			CharacterState = ECharacterState::Jumping;
+//		}
+//		else if (FMath::Abs(PlayerVelocity.X) > 0.1) // must be running
+//		{
+//			CharacterState = ECharacterState::Running;
+//		}
+//		break;
+//	case ECharacterState::Running:
+//		// From running we can idle, jump, fall or die
+//		// jump has proity over run
+//		if (PlayerVelocity.Z > 0.1) // must be jumping
+//		{
+//			CharacterState = ECharacterState::Jumping;
+//		}
+//		else if (PlayerVelocity.Z < -0.1) // must be falling
+//		{
+//			CharacterState = ECharacterState::Falling;
+//		}
+//		else if (FMath::Abs(PlayerVelocity.X) < 0.1) // must be idle
+//		{
+//			CharacterState = ECharacterState::Idle;
+//		}
+//		break;
+//	case ECharacterState::Jumping:
+//		// ether from jump to idle or fall
+//		if (PlayerVelocity.Z < -0.1) // must be falling
+//		{
+//			CharacterState = ECharacterState::Falling;
+//		}
+//		else if (PlayerVelocity.Z < 0.1) // must be idle
+//		{
+//			CharacterState = ECharacterState::Idle;
+//		}
+//		break;
+//	case ECharacterState::Falling:
+//		if (PlayerVelocity.Z > -0.1 && PlayerVelocity.Z < 0.1) // must have landed
+//		{
+//			CharacterState = ECharacterState::Idle;
+//		}
+//		break;
+//	case ECharacterState::Dead:
+//		// RIP
+//		break;
+//	}
+//}
 
-void AGD_2D_prj1Character::HandleState()
-{
-	switch (CharacterState)
-	{
-	case ECharacterState::Idle:
-		// Play idle animation
-		UpdateAnimation(IdleAnimation);
-		break;
-	case ECharacterState::Running:
-		// Play running animation
-		UpdateAnimation(RunningAnimation);
-		UpdateCharacter();
-		break;
-	case ECharacterState::Jumping:
-		// Play jumping animation 
-		UpdateAnimation(JumpingAnimation);
-		UpdateCharacter();
-		break;
-	case ECharacterState::Falling:
-		// Play falling animation
-		UpdateAnimation(FallingAnimation);
-		UpdateCharacter();
-		break;
-	case ECharacterState::Dead:
-		// Play dead animation
-		break;
-	}
-}
+//void AGD_2D_prj1Character::HandleState()
+//{
+//	switch (CharacterState)
+//	{
+//	case ECharacterState::Idle:
+//		// Play idle animation
+//		UpdateAnimation(IdleAnimation);
+//		break;
+//	case ECharacterState::Running:
+//		// Play running animation
+//		UpdateAnimation(RunningAnimation);
+//		UpdateCharacter();
+//		break;
+//	case ECharacterState::Jumping:
+//		// Play jumping animation 
+//		UpdateAnimation(JumpingAnimation);
+//		UpdateCharacter();
+//		break;
+//	case ECharacterState::Falling:
+//		// Play falling animation
+//		UpdateAnimation(FallingAnimation);
+//		UpdateCharacter();
+//		break;
+//	case ECharacterState::Dead:
+//		// Play dead animation
+//		break;
+//	}
+//}
 
 void AGD_2D_prj1Character::SetState(UCharacterState* NewState)
 {

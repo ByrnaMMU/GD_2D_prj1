@@ -7,6 +7,7 @@
 #include "EnhancedInputComponent.h"
 #include "InputActionValue.h"
 #include "IdleState.h"
+#include "Walkstate.h"
 #include "PaperFlipbook.h"
 #include "GD_2D_prj1Character.generated.h"
 
@@ -18,16 +19,16 @@ class UInputAction;
 class IdleState;
 
 
-//enums for character
-UENUM(BlueprintType)
-enum class ECharacterState : uint8
-{
-	Idle		UMETA(DisplayName = "Idle"),
-	Running		UMETA(DisplayName = "Running"),
-	Jumping		UMETA(DisplayName = "Jumping"),
-	Falling		UMETA(DisplayName = "Falling"),
-	Dead		UMETA(DisplayName = "Dead")
-};
+////enums for character
+//UENUM(BlueprintType)
+//enum class ECharacterState : uint8
+//{
+//	Idle		UMETA(DisplayName = "Idle"),
+//	Running		UMETA(DisplayName = "Running"),
+//	Jumping		UMETA(DisplayName = "Jumping"),
+//	Falling		UMETA(DisplayName = "Falling"),
+//	Dead		UMETA(DisplayName = "Dead")
+//};
 
 /**
  * This class is the default character for GD_2D_prj1, and it is responsible for all
@@ -71,8 +72,8 @@ protected:
 	void TouchStopped(const ETouchIndex::Type FingerIndex, const FVector Location);
 
 	//State machine methods
-	void UpdateState();
-	void HandleState();
+	/*void UpdateState();
+	void HandleState();*/
 
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
@@ -106,8 +107,8 @@ public:
 	class UPaperFlipbook* FallingAnimation;
 
 	//character states
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
-	ECharacterState CharacterState;
+	/*UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
+	ECharacterState CharacterState;*/
 
 	UPROPERTY(VisibleAnywhere)
 	// code for controlling the stamina of the player
@@ -130,6 +131,10 @@ public:
 	// the idle state of the player
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = States)
 	class UCharacterState* IdleState;
+
+	// the idle state of the player
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = States)
+	class UCharacterState* WalkState;
 
 	// State management
 	void SetState(UCharacterState* NewState);

@@ -23,10 +23,9 @@ public:
     // the idle state of the player 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = States)
     class UCharacterState* IdleState;
-
-    // State management 
-    void SetState(UCharacterState* NewState);
-    UCharacterState* GetCurrentState() const;
+    // the walk state of the player 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = States)
+    class UCharacterState* WalkState;
 
     // getter for the character
     void SetCharacter(AGD_2D_prj1Character* CharacterOwner);

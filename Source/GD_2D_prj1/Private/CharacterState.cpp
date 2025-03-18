@@ -8,8 +8,7 @@
 void UCharacterState::SetCharacter(AGD_2D_prj1Character* CharacterOwner)
 {
     Character = CharacterOwner;
-    // create and attach the Idle state 
-    IdleState = CreateDefaultSubobject<UIdleState>(TEXT("IdleState"));
+    
 }
 
 void UCharacterState::EnterState() {}

@@ -1,32 +1,30 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "IdleState.h"
+#include "WalkState.h"
 #include "GD_2D_prj1/GD_2D_prj1Character.h"
 
-
-void UIdleState::EnterState()
+void UWalkState::EnterState()
 {
     if (Character)
     {
         // Play idle animation
-        Character->UpdateAnimation(Character->IdleAnimation);
+        Character->UpdateAnimation(Character->RunningAnimation);
     }
 }
 
 // add movement to the player
-void UIdleState::MoveRight(float Value)
+void UWalkState::MoveRight(float Value)
 {
     // note is some we would remove the handle state and just run from here the change
     if (Character)
     {
         // Apply the input to the character motion
         Character->AddMovementInput(FVector(1.0f, 0.0f, 0.0f), Value);
-        Character->SetState(WalkState);
     }
 }
 
-void UIdleState::StartJump()
+void UWalkState::StartJump()
 {
     if (Character)
     {
@@ -34,7 +32,7 @@ void UIdleState::StartJump()
     }
 }
 
-void UIdleState::HandleState()
+void UWalkState::HandleState()
 {
     if (Character)
     {
