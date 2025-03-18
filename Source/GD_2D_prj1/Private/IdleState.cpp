@@ -22,7 +22,7 @@ void UIdleState::MoveRight(float Value)
     {
         // Apply the input to the character motion
         Character->AddMovementInput(FVector(1.0f, 0.0f, 0.0f), Value);
-        Character->SetState(WalkState);
+        
     }
 }
 
@@ -48,6 +48,7 @@ void UIdleState::HandleState()
         else if (FMath::Abs(PlayerVelocity.X) > 0.1) // must be running
         {
             // switch to walk state
+            Character->SetState(WalkState);
         }
     }
 }
