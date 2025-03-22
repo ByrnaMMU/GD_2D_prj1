@@ -12,6 +12,8 @@
 #include "EnhancedInputSubsystems.h"
 #include "IdleState.h"
 #include "WalkState.h"
+#include "JumpState.h"
+#include "FallState.h"
 #include "PaperFlipbook.h"
 
 DEFINE_LOG_CATEGORY_STATIC(SideScrollerCharacter, Log, All);
@@ -82,7 +84,11 @@ AGD_2D_prj1Character::AGD_2D_prj1Character()
 	// create and attach the Idle state
 	IdleState = CreateDefaultSubobject<UIdleState>(TEXT("IdleState"));
 	// create and attach the Walk state
-	WalkState = CreateDefaultSubobject<UIdleState>(TEXT("WalkState"));
+	WalkState = CreateDefaultSubobject<UWalkState>(TEXT("WalkState"));
+	// create and attach the Jump state
+	JumpState = CreateDefaultSubobject<UJumpState>(TEXT("JumpState"));
+	// create and attach the Fall state
+	FallState = CreateDefaultSubobject<UFallState>(TEXT("FallState"));
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -133,6 +139,9 @@ void AGD_2D_prj1Character::SetupPlayerInputComponent(class UInputComponent* Play
 	Input->BindAction(IA_Move, ETriggerEvent::Triggered, this, &AGD_2D_prj1Character::MoveRight);
 	Input->BindAction(IA_Jump, ETriggerEvent::Triggered, this, &ACharacter::Jump);
 
+	FallState->SetCharacter(this);
+	JumpState->SetCharacter(this);
+	WalkState->SetCharacter(this);
 	// give the state a reference to the character
 	IdleState->SetCharacter(this);
 	// set the inital state to idle
@@ -177,27 +186,27 @@ void AGD_2D_prj1Character::TouchStopped(const ETouchIndex::Type FingerIndex, con
 	StopJumping();
 }
 
-void AGD_2D_prj1Character::UpdateCharacter()
-{
-	// Update animation to match the motion
-	//UpdateAnimation();
-
-	// Now setup the rotation of the controller based on the direction we are travelling
-	const FVector PlayerVelocity = GetVelocity();	
-	float TravelDirection = PlayerVelocity.X;
-	// Set the rotation so that the character faces his direction of travel.
-	if (Controller != nullptr)
-	{
-		if (TravelDirection < 0.0f)
-		{
-			Controller->SetControlRotation(FRotator(0.0, 180.0f, 0.0f));
-		}
-		else if (TravelDirection > 0.0f)
-		{
-			Controller->SetControlRotation(FRotator(0.0f, 0.0f, 0.0f));
-		}
-	}
-}
+//void AGD_2D_prj1Character::UpdateCharacter()
+//{
+//	// Update animation to match the motion
+//	//UpdateAnimation();
+//
+//	// Now setup the rotation of the controller based on the direction we are travelling
+//	const FVector PlayerVelocity = GetVelocity();	
+//	float TravelDirection = PlayerVelocity.X;
+//	// Set the rotation so that the character faces his direction of travel.
+//	if (Controller != nullptr)
+//	{
+//		if (TravelDirection < 0.0f)
+//		{
+//			Controller->SetControlRotation(FRotator(0.0, 180.0f, 0.0f));
+//		}
+//		else if (TravelDirection > 0.0f)
+//		{
+//			Controller->SetControlRotation(FRotator(0.0f, 0.0f, 0.0f));
+//		}
+//	}
+//}
 
 //void AGD_2D_prj1Character::UpdateState()
 //{

@@ -40,15 +40,37 @@ void UIdleState::HandleState()
     {
         // get the velocity of the player
         const FVector PlayerVelocity = Character->GetVelocity();
+        float TravelDirection = PlayerVelocity.X;
+        // Set the rotation so that the character faces his direction of travel.
+        if (Character->Controller != nullptr)
+        {
+            if (TravelDirection < 0.0f)
+            {
+                Character->Controller->SetControlRotation(FRotator(0.0, 180.0f, 0.0f));
+            }
+            else if (TravelDirection > 0.0f)
+            {
+                Character->Controller->SetControlRotation(FRotator(0.0f, 0.0f, 0.0f));
+            }
+        }
 
         if (FMath::Abs(PlayerVelocity.Z) > 0.1) // must be jumping
         {
-            // switch to jump state
+            if (PlayerVelocity.Z > 0.1)
+            {
+                // switch to jump state
+                Character->SetState(Character->JumpState);
+            }
+            else if (PlayerVelocity.Z < 0.1)
+            {
+                // switch to jump state
+                Character->SetState(Character->FallState);
+            }
         }
         else if (FMath::Abs(PlayerVelocity.X) > 0.1) // must be running
         {
             // switch to walk state
-            Character->SetState(WalkState);
+            Character->SetState(Character->WalkState);
         }
     }
 }

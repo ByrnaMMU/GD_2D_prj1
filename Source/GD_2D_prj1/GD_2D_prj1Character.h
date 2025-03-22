@@ -7,7 +7,9 @@
 #include "EnhancedInputComponent.h"
 #include "InputActionValue.h"
 #include "IdleState.h"
-#include "Walkstate.h"
+#include "WalkState.h"
+#include "JumpState.h"
+#include "FallState.h"
 #include "PaperFlipbook.h"
 #include "GD_2D_prj1Character.generated.h"
 
@@ -16,7 +18,6 @@
 class UTextRenderComponent;
 class UInputMappingContext;
 class UInputAction;
-class IdleState;
 
 
 ////enums for character
@@ -63,7 +64,7 @@ protected:
 	void StartJump(const FInputActionValue& Value);
 	void StopJump(const FInputActionValue& Value);
 
-	void UpdateCharacter();
+	//void UpdateCharacter();
 
 	/** Handle touch inputs. */
 	void TouchStarted(const ETouchIndex::Type FingerIndex, const FVector Location);
@@ -72,15 +73,15 @@ protected:
 	void TouchStopped(const ETouchIndex::Type FingerIndex, const FVector Location);
 
 	//State machine methods
-	/*void UpdateState();
-	void HandleState();*/
+	//void UpdateState();
+	//void HandleState();
 
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 	// End of APawn interface
-	// the idle state of the player
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = States)
-	class UCharacterState* CurrentState;
+	
+
+	
 
 
 public:
@@ -107,8 +108,8 @@ public:
 	class UPaperFlipbook* FallingAnimation;
 
 	//character states
-	/*UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
-	ECharacterState CharacterState;*/
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
+	//ECharacterState CharacterState;
 
 	UPROPERTY(VisibleAnywhere)
 	// code for controlling the stamina of the player
@@ -128,13 +129,21 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "EnhancedInput")
 	UInputAction* IA_Jump;
 
-	// the idle state of the player
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = States)
-	class UCharacterState* IdleState;
+	class UCharacterState* CurrentState;
 
 	// the idle state of the player
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = States)
+	class UCharacterState* IdleState;
+	// the walk state of the player
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = States)
 	class UCharacterState* WalkState;
+	// the jump state of the player
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = States)
+	class UCharacterState* JumpState;
+	// the fall state of the player
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = States)
+	class UCharacterState* FallState;
 
 	// State management
 	void SetState(UCharacterState* NewState);
