@@ -81,7 +81,11 @@ protected:
 	// End of APawn interface
 	
 
-	
+	// Function to handle collisions
+	UFUNCTION(BlueprintCallable, Category = "Collision")
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+
 
 
 public:

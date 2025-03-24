@@ -78,8 +78,8 @@ AGD_2D_prj1Character::AGD_2D_prj1Character()
     // 	TextComponent->SetupAttachment(RootComponent);
 
 	// Enable replication on the Sprite component so animations show up when networked
-	GetSprite()->SetIsReplicated(true);
-	bReplicates = true;
+	//GetSprite()->SetIsReplicated(true);
+	//bReplicates = true;
 
 	// create and attach the Idle state
 	IdleState = CreateDefaultSubobject<UIdleState>(TEXT("IdleState"));
@@ -89,6 +89,9 @@ AGD_2D_prj1Character::AGD_2D_prj1Character()
 	JumpState = CreateDefaultSubobject<UJumpState>(TEXT("JumpState"));
 	// create and attach the Fall state
 	FallState = CreateDefaultSubobject<UFallState>(TEXT("FallState"));
+
+	// Bind the overlap event
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &AGD_2D_prj1Character::OnOverlapBegin);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -305,4 +308,26 @@ void AGD_2D_prj1Character::SetState(UCharacterState* NewState)
 UCharacterState* AGD_2D_prj1Character::GetCurrentState() const
 {
 	return CurrentState;
+}
+
+void AGD_2D_prj1Character::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	// Handle overlap with an   
+	UE_LOG(LogTemp, Warning, TEXT("Overlapped"));
+	if (OtherActor && (OtherActor != this))
+	{
+		// Print all tags of the other actor  
+		for (const FName& Tag : OtherActor->Tags)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Collided with an object with tag: %s"), *Tag.ToString());
+		}
+		if (OtherActor->ActorHasTag("Enemy"))
+		{
+			FVector BounceDirection = GetActorLocation() - OtherActor->GetActorLocation();
+			BounceDirection.Normalize();
+			FVector Impulse = BounceDirection * 2500.0f;
+			//push the player 
+			GetCharacterMovement()->AddImpulse(Impulse, true);
+		}
+	}
 }
