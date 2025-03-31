@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PaperCharacter.h"
 #include "GameFramework/Pawn.h"
 #include "PaperFlipbookComponent.h"
 #include "InputActionValue.h"
@@ -37,8 +38,8 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
-	UPaperFlipbookComponent* SpriteComponent;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
+	//UPaperFlipbookComponent* SpriteComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
 	UBoxComponent* Collider;
 
