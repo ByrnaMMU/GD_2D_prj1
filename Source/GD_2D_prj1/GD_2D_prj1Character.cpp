@@ -122,13 +122,6 @@ void AGD_2D_prj1Character::Tick(float DeltaSeconds)
 
 void AGD_2D_prj1Character::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
-	// Note: the 'Jump' action and the 'MoveRight' axis are bound to actual keys/buttons/sticks in DefaultInput.ini (editable from Project Settings..Input)
-	/*PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
-	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
-	PlayerInputComponent->BindAxis("MoveRight", this, &AGD_2D_prj1Character::MoveRight);
-
-	PlayerInputComponent->BindTouch(IE_Pressed, this, &AGD_2D_prj1Character::TouchStarted);
-	PlayerInputComponent->BindTouch(IE_Released, this, &AGD_2D_prj1Character::TouchStopped);*/
 
 	APlayerController* PlayerController = Cast<APlayerController>(GetController());
 
@@ -188,113 +181,6 @@ void AGD_2D_prj1Character::TouchStopped(const ETouchIndex::Type FingerIndex, con
 	// Cease jumping once touch stopped
 	StopJumping();
 }
-
-//void AGD_2D_prj1Character::UpdateCharacter()
-//{
-//	// Update animation to match the motion
-//	//UpdateAnimation();
-//
-//	// Now setup the rotation of the controller based on the direction we are travelling
-//	const FVector PlayerVelocity = GetVelocity();	
-//	float TravelDirection = PlayerVelocity.X;
-//	// Set the rotation so that the character faces his direction of travel.
-//	if (Controller != nullptr)
-//	{
-//		if (TravelDirection < 0.0f)
-//		{
-//			Controller->SetControlRotation(FRotator(0.0, 180.0f, 0.0f));
-//		}
-//		else if (TravelDirection > 0.0f)
-//		{
-//			Controller->SetControlRotation(FRotator(0.0f, 0.0f, 0.0f));
-//		}
-//	}
-//}
-
-//void AGD_2D_prj1Character::UpdateState()
-//{
-//	const FVector PlayerVelocity = GetVelocity();
-//	switch (CharacterState)
-//	{
-//	case ECharacterState::Idle:
-//		// from Idle we can run, jump or die horribly (if you added the health script), no dissapearing platforms so can't fall
-//		// jump has proity over run
-//		if (PlayerVelocity.Z > 0.1) // must be jumping
-//		{
-//			CharacterState = ECharacterState::Jumping;
-//		}
-//		else if (FMath::Abs(PlayerVelocity.X) > 0.1) // must be running
-//		{
-//			CharacterState = ECharacterState::Running;
-//		}
-//		break;
-//	case ECharacterState::Running:
-//		// From running we can idle, jump, fall or die
-//		// jump has proity over run
-//		if (PlayerVelocity.Z > 0.1) // must be jumping
-//		{
-//			CharacterState = ECharacterState::Jumping;
-//		}
-//		else if (PlayerVelocity.Z < -0.1) // must be falling
-//		{
-//			CharacterState = ECharacterState::Falling;
-//		}
-//		else if (FMath::Abs(PlayerVelocity.X) < 0.1) // must be idle
-//		{
-//			CharacterState = ECharacterState::Idle;
-//		}
-//		break;
-//	case ECharacterState::Jumping:
-//		// ether from jump to idle or fall
-//		if (PlayerVelocity.Z < -0.1) // must be falling
-//		{
-//			CharacterState = ECharacterState::Falling;
-//		}
-//		else if (PlayerVelocity.Z < 0.1) // must be idle
-//		{
-//			CharacterState = ECharacterState::Idle;
-//		}
-//		break;
-//	case ECharacterState::Falling:
-//		if (PlayerVelocity.Z > -0.1 && PlayerVelocity.Z < 0.1) // must have landed
-//		{
-//			CharacterState = ECharacterState::Idle;
-//		}
-//		break;
-//	case ECharacterState::Dead:
-//		// RIP
-//		break;
-//	}
-//}
-
-//void AGD_2D_prj1Character::HandleState()
-//{
-//	switch (CharacterState)
-//	{
-//	case ECharacterState::Idle:
-//		// Play idle animation
-//		UpdateAnimation(IdleAnimation);
-//		break;
-//	case ECharacterState::Running:
-//		// Play running animation
-//		UpdateAnimation(RunningAnimation);
-//		UpdateCharacter();
-//		break;
-//	case ECharacterState::Jumping:
-//		// Play jumping animation 
-//		UpdateAnimation(JumpingAnimation);
-//		UpdateCharacter();
-//		break;
-//	case ECharacterState::Falling:
-//		// Play falling animation
-//		UpdateAnimation(FallingAnimation);
-//		UpdateCharacter();
-//		break;
-//	case ECharacterState::Dead:
-//		// Play dead animation
-//		break;
-//	}
-//}
 
 void AGD_2D_prj1Character::SetState(UCharacterState* NewState)
 {

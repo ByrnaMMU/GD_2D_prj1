@@ -48,7 +48,7 @@ void UAIMovement::MoveToNextPatrolNode()
 	}
 	else if (PatrolNodes.Num() == 1) // If we have only one patrol node, set the owner's location to that node's location
 	{
-		UE_LOG(LogTemp, Warning, TEXT("one nodes"));
+		UE_LOG(LogTemp, Warning, TEXT("one node"));
 		OwnerPawn->SetActorLocation(PatrolNodes[0]->GetActorLocation());
 		return;
 	}
@@ -57,14 +57,14 @@ void UAIMovement::MoveToNextPatrolNode()
 		if (OwnerPawn->GetActorLocation().X > PatrolNodes[CurrentPatrolNodeIndex]->GetActorLocation().X) // are we moving left or right?
 		{
 			// move left
-			UE_LOG(LogTemp, Warning, TEXT("go left"));
+			//UE_LOG(LogTemp, Warning, TEXT("go left"));
 			OwnerPawn->MoveRight(-1.0f);
 
 		}
 		else
 		{
 			// move right
-			UE_LOG(LogTemp, Warning, TEXT("go right"));
+			//UE_LOG(LogTemp, Warning, TEXT("go right"));
 			OwnerPawn->MoveRight(1.0f);
 
 		}

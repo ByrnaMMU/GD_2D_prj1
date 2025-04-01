@@ -8,7 +8,6 @@
 void UCharacterState::SetCharacter(AGD_2D_prj1Character* CharacterOwner)
 {
     Character = CharacterOwner;
-    
 }
 
 void UCharacterState::EnterState() {}

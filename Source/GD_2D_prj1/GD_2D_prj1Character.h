@@ -14,22 +14,9 @@
 #include "GD_2D_prj1Character.generated.h"
 
 
-
 class UTextRenderComponent;
 class UInputMappingContext;
 class UInputAction;
-
-
-////enums for character
-//UENUM(BlueprintType)
-//enum class ECharacterState : uint8
-//{
-//	Idle		UMETA(DisplayName = "Idle"),
-//	Running		UMETA(DisplayName = "Running"),
-//	Jumping		UMETA(DisplayName = "Jumping"),
-//	Falling		UMETA(DisplayName = "Falling"),
-//	Dead		UMETA(DisplayName = "Dead")
-//};
 
 /**
  * This class is the default character for GD_2D_prj1, and it is responsible for all
@@ -72,9 +59,6 @@ protected:
 	/** Handle touch stop event. */
 	void TouchStopped(const ETouchIndex::Type FingerIndex, const FVector Location);
 
-	//State machine methods
-	//void UpdateState();
-	//void HandleState();
 
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
@@ -110,10 +94,6 @@ public:
 	// The animation to play while falling
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animations)
 	class UPaperFlipbook* FallingAnimation;
-
-	//character states
-	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
-	//ECharacterState CharacterState;
 
 	UPROPERTY(VisibleAnywhere)
 	// code for controlling the stamina of the player

@@ -4,14 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "PaperCharacter.h"
-#include "GameFramework/Pawn.h"
+//#include "PaperSpriteComponent.h"
+#include "EnemyIdleState.h"
+//#include "GameFramework/Pawn.h"
 #include "PaperFlipbookComponent.h"
 #include "InputActionValue.h"
 #include "Components/BoxComponent.h"
+#include "PaperFlipbook.h"
 #include "Enemy.generated.h"
 
 UCLASS()
-class AEnemy : public APawn
+class AEnemy : public APaperCharacter
 {
 	GENERATED_BODY()
 
@@ -39,7 +42,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
-	//UPaperFlipbookComponent* SpriteComponent;
+	//UPaperSpriteComponent* SpriteComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
 	UBoxComponent* Collider;
 
@@ -51,4 +54,14 @@ public:
 	// enable the Enemy to move
 	void MoveRight(const FInputActionValue& Value);
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = States)
+	class UEnemyState* CurrentState;
+	// the idle state of the player
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = States)
+	class UEnemyState* EnemyIdleState;
+
+	// State management
+	void SetState(UEnemyState* NewState);
+	UEnemyState* GetCurrentState() const;
 };
